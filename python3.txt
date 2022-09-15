@@ -1,0 +1,6 @@
+text="X-DSPAM-Confidence:0.8475"
+num=text.find('0')
+print(num)
+s=text[23:]
+f=float(s)
+print(f)
