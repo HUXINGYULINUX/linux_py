@@ -1,0 +1,18 @@
+、PY4E练习五第二题
+largest=None
+smallest=None
+while True:
+	a=input('please input a number:')
+	if a == "done":
+		break
+	try:
+		a=float(a)
+	except:
+		print("Invalid input")
+		continue
+	if largest is None or a>=largest:
+		largest=a
+	if smallest is None or a<=smallest:
+		smallest=a
+print("largest: ",largest)
+print("smallest: ",smallest)
