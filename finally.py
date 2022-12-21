@@ -13,7 +13,7 @@ class B:
 		self.life_length=life_length#生命值
 	def recovery(self,stone_count):
 		if self.life_length==self.maxlife_length:
-			print("这个战士已经死亡...")
+			print("the soldier already died...")
 			return
 		self.life_length=stone_count+self.life_length
 		if self.life_length>self.maxlife_length:
@@ -68,14 +68,14 @@ class forest():
 print("game start...")
 forest_number=7#森林数量
 forest_List=[]#森林列表
-notification='前方森林里的妖怪是：'#显示在屏幕上的内容
+notification='the demon in the forest ahead is：'#显示在屏幕上的内容
 for i in range(forest_number):
 	typename=randint(0,1)
 	if typename==0:
 		forest_List.append(forest(eagle()))
 	else:
 		forest_List.append(forest(wolf()))
-	notification+=f'第{i+1}座森林里面是{forest_List[i].demon.typename}'
+	notification+=f'the {i+1} forest is{forest_List[i].demon.typename}'
 
 print(notification,end=' ')#显示妖怪信息
 
@@ -87,21 +87,21 @@ for i in range(len(notification)):
 
 #创建玩家
 A=A(1000)
-print(f'你现在拥有{A.stone}灵石')
+print(f'you have{A.stone}stone')
 
 #雇佣战士
 def hireB():
 	menu='''
-	请选择雇佣兵种
-	a-弓箭兵
-	b-斧头兵
-	c-完成雇佣，退出选择
+	please select mercenary type
+	a-Archer
+	b-Axeman
+	c-complete the hire and opt out
 	:'''
 
 	while True:
 		choice=input(menu)
 		if choice not in['a','b','c']:
-			print('输入错误！')
+			print('input error！')
 			continue
 		if choice=='c':
 			return#退出雇佣流程
@@ -111,7 +111,7 @@ def hireB():
 		else:
 			hireClass=B2
 		if hireClass.employment_price>A.stone:
-			print(f'灵石不足，你只有{A.stone}灵石')
+			print(f'lock of stone，you only have{A.stone}stone')
 			continue
 		break
 
@@ -121,7 +121,7 @@ def hireB():
 		if not Bname:
 			continue
 		if Bname in A.B:
-			print('这个名字已经被使用')
+			print('the name is already in use!')
 			continue
 		break
 
@@ -130,68 +130,69 @@ def hireB():
 
 	#支付灵石
 	A.stone=A.stone-hireClass.employment_price
-	print(f'雇佣成功，你现在剩余灵石还有{A.stone}')
+	print(f'employment success，you have some stone left now{A.stone}')
 
 #雇佣弓箭兵和斧头兵
 hireB()
 
 #输出灵石和战士的信息
 def printInfo():
-	print('\n手下的战士情况如下：')
+	print('\n the men under his command are as follows：')
 	for name ,B in A.B.items():
-		print(f'{name}:{B.typename}生命值{B.life_length}')
+		print(f'{name}:{B.typename}life_length{B.life_length}')
 printInfo()
 
 for name, B in A.B.items():
     print(f"{B.typename}:{name}")
 
-print('\n游戏开始...')
+print('\ngame start...')
 
 #森林关卡
 for no,forest in enumerate(forest_List):
     #如果战士队列为空，游戏没有通关，就失败了
     if not A.B:
-        print('已经无战士')
+        print('there are no soldier left!')
         exit()
 
-print(f'\n现在到了第{no+1}座森林...')
+print(f'\nnow, we alread get the {no+1} forest...')
 
 #派出战士，开始进入森林打怪
-while 1:
-    while 1:
-        Bname=input("您要派出的战士是:")
+while True:
+    while True:
+        Bname=input('the soldier you are sending are: ')
         if Bname not in A.B:
-            print('该战士不存在')
+            print('the soldier does not exit')
             continue
         break
     B=A.B[Bname]
 
-    print(f"当前森林里面是{forest.demon.typename}")
+    print(f"now in the forest is:{forest.demon.typename}")
 
     B.fight(forest.demon)#打怪
 
-    print(f'经过战斗，你的战士{Bname},生命值还有{B.life_length}')
+    print(f'by fighting，your soldier {Bname},the life_length have {B.life_length}')
 
     #如果生命值<=0，该战士牺牲，从队列中消失
     if B.life_length<=0:
-        print('该战士牺牲')
+        print('the soldier died!')
         A.B.pop(Bname)
         #打怪失败，通关失败
         continue
     #打怪成功，通关成功
     else:
         break
-input('\n游戏通关，按回车继续')
+input('\n finish the game, press Enter to continue')
 #通关后，选择是否给战士疗伤
-while 1:
+while True:
     printInfo()
-    op=input('''\n请输入疗伤战士名字和灵石数量，格式为：姓名+20
-    	直接回车退出疗伤''')
+    op=input('''\nplease enter the name of the wounded soldier and the number of stone，
+    	the format is：name+20
+    	directly enter to exit headling''')
 
     if not op:
         break
-    if op.count('+')!=1:
-        print('输入格式错误')
+    if op.count('+')!=True:
+        print('input format error!')
         continue
     name,stone_count=op.split('+')
     name=name.strip()
